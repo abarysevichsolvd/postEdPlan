@@ -37,7 +37,7 @@ public class WebDriverFactory {
     }
 
 
-    public void setCapabilities(Properties prop, AbstractDriverOptions options) {
+    private void setCapabilities(Properties prop, AbstractDriverOptions options) {
         prop.forEach((key, value) -> {
             if(String.valueOf(key).contains(".")){
                 if(String.valueOf(key).split("\\.")[0].equals("capabilities")){
@@ -47,7 +47,7 @@ public class WebDriverFactory {
         });
     }
 
-    public void setChromeArguments(Properties prop, ChromeOptions options) {
+    private void setChromeArguments(Properties prop, ChromeOptions options) {
         prop.forEach((key, value) -> {
             if(String.valueOf(key).contains(".")){
                 if(String.valueOf(key).split("\\.")[0].equals("arguments")){
