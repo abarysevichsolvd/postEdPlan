@@ -33,7 +33,7 @@ public class WebDriverFactory {
     }
 
     public Properties loadPropertiesFromFile() {
-        return loadPropertiesFromFile("src/main/resources/browser_config.properties");
+        return loadPropertiesFromFile("src/main/resources/config.properties");
     }
 
 
