@@ -3,8 +3,6 @@ package com.amazon.drivers;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.AbstractDriverOptions;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
@@ -39,8 +37,8 @@ public class WebDriverFactory {
 
     private void setCapabilities(Properties prop, AbstractDriverOptions options) {
         prop.forEach((key, value) -> {
-            if(String.valueOf(key).contains(".")){
-                if(String.valueOf(key).split("\\.")[0].equals("capabilities")){
+            if (String.valueOf(key).contains(".")) {
+                if (String.valueOf(key).split("\\.")[0].equals("capabilities")) {
                     options.setCapability((String) String.valueOf(key).split("\\.")[1], value);
                 }
             }
@@ -49,8 +47,8 @@ public class WebDriverFactory {
 
     private void setChromeArguments(Properties prop, ChromeOptions options) {
         prop.forEach((key, value) -> {
-            if(String.valueOf(key).contains(".")){
-                if(String.valueOf(key).split("\\.")[0].equals("arguments")){
+            if (String.valueOf(key).contains(".")) {
+                if (String.valueOf(key).split("\\.")[0].equals("arguments")) {
                     options.addArguments((String) value);
                 }
             }
