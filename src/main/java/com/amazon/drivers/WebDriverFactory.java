@@ -1,5 +1,6 @@
 package com.amazon.drivers;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,7 +16,10 @@ import java.util.Properties;
 
 public class WebDriverFactory {
 
+    private final Logger logger = Logger.getLogger(WebDriverFactory.class);
+
     public Properties loadPropertiesFromFile(String configFilePath) {
+        logger.info("...Starting read config file located by path = " + configFilePath);
         Properties properties = new Properties();
         FileInputStream fileInputStream = null;
         try {
@@ -27,6 +31,10 @@ public class WebDriverFactory {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        properties.forEach((key, value) -> {
+            logger.info(String.format("...Capability has been loaded %s=%s", key, value));
+        });
         return properties;
     }
 
