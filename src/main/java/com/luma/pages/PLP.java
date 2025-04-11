@@ -1,7 +1,7 @@
-package com.amazon.pages;
+package com.luma.pages;
 
-import com.amazon.Commands;
-import com.amazon.components.ProductPLPComponent;
+import com.luma.Commands;
+import com.luma.components.ProductPLPComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

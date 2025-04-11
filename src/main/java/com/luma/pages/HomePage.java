@@ -1,6 +1,6 @@
-package com.amazon.pages;
+package com.luma.pages;
 
-import com.amazon.constant.Constant;
+import com.luma.constant.Constant;
 import org.openqa.selenium.WebDriver;
 
 public class HomePage extends AbstractPage {

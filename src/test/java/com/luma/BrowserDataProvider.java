@@ -1,4 +1,4 @@
-package com.amazon;
+package com.luma;
 
 import org.testng.annotations.DataProvider;
 

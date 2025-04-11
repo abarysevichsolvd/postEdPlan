@@ -1,10 +1,10 @@
-package com.amazon;
+package com.luma;
 
-import com.amazon.components.HeaderComponent;
-import com.amazon.components.ProductPLPComponent;
-import com.amazon.drivers.WebDriverFactory;
-import com.amazon.pages.HomePage;
-import com.amazon.pages.PLP;
+import com.luma.components.HeaderComponent;
+import com.luma.components.ProductPLPComponent;
+import com.luma.drivers.WebDriverFactory;
+import com.luma.pages.HomePage;
+import com.luma.pages.PLP;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;

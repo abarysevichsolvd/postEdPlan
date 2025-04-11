@@ -1,6 +1,6 @@
-package com.amazon.constant;
+package com.luma.constant;
 
-import com.amazon.drivers.WebDriverFactory;
+import com.luma.drivers.WebDriverFactory;
 
 import java.util.ArrayList;
 import java.util.List;

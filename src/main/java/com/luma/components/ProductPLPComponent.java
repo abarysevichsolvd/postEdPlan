@@ -1,4 +1,4 @@
-package com.amazon.components;
+package com.luma.components;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

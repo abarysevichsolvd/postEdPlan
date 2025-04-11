@@ -1,4 +1,4 @@
-package com.amazon.components;
+package com.luma.components;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;

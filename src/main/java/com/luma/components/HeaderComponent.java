@@ -1,7 +1,7 @@
-package com.amazon.components;
+package com.luma.components;
 
-import com.amazon.Commands;
-import com.amazon.constant.Constant;
+import com.luma.Commands;
+import com.luma.constant.Constant;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
