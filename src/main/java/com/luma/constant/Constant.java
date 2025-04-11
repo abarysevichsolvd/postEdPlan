@@ -4,9 +4,16 @@ import com.luma.drivers.WebDriverFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Constant {
-    public static final String HOME_URL = new WebDriverFactory().loadPropertiesFromFile().getProperty("home_page_url");
+
+    public static final Properties PROPERTIES;
+    public static final String HOME_URL = getHomeUrl();
+
+    static {
+        PROPERTIES = new WebDriverFactory().loadPropertiesFromFile();
+    }
 
     public static List<String> getSearchingPhrazes() {
         List<String> listOfPhrazes = new ArrayList<>();
@@ -21,6 +28,10 @@ public class Constant {
                 "Short"
         ));
         return listOfPhrazes;
+    }
+
+    public static String getHomeUrl() {
+        return PROPERTIES.getProperty("home_page_url");
     }
 
 }

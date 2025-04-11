@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.DefaultElementLocatorFactory;
 
-public class AbstractComponent {
+public abstract class AbstractComponent {
 
     protected WebDriver driver;
     protected final Logger logger = Logger.getLogger(AbstractComponent.class);

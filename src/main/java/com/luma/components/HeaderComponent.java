@@ -1,6 +1,6 @@
 package com.luma.components;
 
-import com.luma.Commands;
+import com.luma.WaitUtils;
 import com.luma.constant.Constant;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -27,7 +27,7 @@ public class HeaderComponent extends AbstractComponent {
     }
 
     public void clickSearchButton() {
-        Commands.waitUntilClickable(driver, searchButton, 3);
+        WaitUtils.waitUntilClickable(driver, searchButton, 3);
         searchButton.click();
     }
 

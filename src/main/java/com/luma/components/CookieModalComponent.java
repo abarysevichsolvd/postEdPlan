@@ -1,6 +1,6 @@
 package com.luma.components;
 
-import com.luma.Commands;
+import com.luma.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,7 +15,7 @@ public class CookieModalComponent extends AbstractComponent {
     }
 
     public void clickAgreeBtn() {
-        Commands.waitUntilClickable(driver, agreeBtn, 3);
+        WaitUtils.waitUntilClickable(driver, agreeBtn, 3);
         agreeBtn.click();
     }
 

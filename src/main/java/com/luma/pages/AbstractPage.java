@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class AbstractPage {
+public abstract class AbstractPage {
 
     protected WebDriver driver;
     protected final Logger logger = Logger.getLogger(AbstractPage.class);

@@ -1,6 +1,6 @@
 package com.luma.pages;
 
-import com.luma.Commands;
+import com.luma.WaitUtils;
 import com.luma.components.ProductPLPComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,20 +11,20 @@ import java.util.stream.Collectors;
 
 public class PLP extends AbstractPage {
 
-    private final String productXpath = "//ol[contains(@class, 'products list')]//li";
-    @FindBy(xpath = productXpath)
+    private final String PRODUCT_XPATH = "//ol[contains(@class, 'products list')]//li";
+    @FindBy(xpath = PRODUCT_XPATH)
     private List<WebElement> products;
     private List<ProductPLPComponent> productPLPList;
 
     public PLP(WebDriver driver) {
         super(driver);
-        Commands.waitUntilElementExist(driver, productXpath, 3);
-        this.productPLPList = products.stream().map(webElement -> {
-            return new ProductPLPComponent(webElement, driver);
-        }).collect(Collectors.toList());
     }
 
     public List<ProductPLPComponent> getProductPLPList() {
+        WaitUtils.waitUntilElementExist(driver, PRODUCT_XPATH, 3);
+        this.productPLPList = products.stream().map(webElement -> {
+            return new ProductPLPComponent(webElement, driver);
+        }).collect(Collectors.toList());
         return productPLPList;
     }
 

@@ -8,15 +8,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class Commands {
+public class WaitUtils {
 
-    public static void waitUntilClickable(WebDriver driver, WebElement elem, long seconds) {
+    private static WebDriverWait createWebDriverWait(WebDriver driver, long seconds) {
         WebDriverWait waiter = new WebDriverWait(driver, Duration.ofSeconds(seconds));
-        waiter.until(ExpectedConditions.elementToBeClickable(elem));
+        return waiter;
+    }
+
+    public static void waitUntilClickable(WebDriver driver, WebElement element, long seconds) {
+        WebDriverWait waiter = createWebDriverWait(driver, seconds);
+        waiter.until(ExpectedConditions.elementToBeClickable(element));
     }
 
     public static void waitUntilElementExist(WebDriver driver, String xpath, long seconds) {
-        WebDriverWait waiter = new WebDriverWait(driver, Duration.ofSeconds(seconds));
+        WebDriverWait waiter = createWebDriverWait(driver, seconds);
         waiter.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath(xpath)));
     }
 
