@@ -11,15 +11,14 @@ public class Constant {
     public static List<String> getSearchingPhrazes() {
         List<String> listOfPhrazes = new ArrayList<>();
         listOfPhrazes.addAll(List.of(
-                "Hoodies",
+                "Hoodie",
                 "Sweatshirt",
                 "Jacket",
                 "Tee",
                 "Bra",
                 "Tank",
                 "Pant",
-                "Short",
-                "Bag"
+                "Short"
         ));
         return listOfPhrazes;
     }
