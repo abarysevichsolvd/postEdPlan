@@ -1,6 +1,6 @@
 package com.luma.pages;
 
-import com.luma.WaitUtils;
+import com.luma.utils.WaitUtils;
 import com.luma.components.ProductPLPComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

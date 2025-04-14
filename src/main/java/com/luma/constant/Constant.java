@@ -9,10 +9,11 @@ import java.util.Properties;
 public class Constant {
 
     public static final Properties PROPERTIES;
-    public static final String HOME_URL = getHomeUrl();
+    public static final String HOME_URL;
 
     static {
         PROPERTIES = new WebDriverFactory().loadPropertiesFromFile();
+        HOME_URL = PROPERTIES.getProperty("home_page_url");
     }
 
     public static List<String> getSearchingPhrazes() {
@@ -28,10 +29,6 @@ public class Constant {
                 "Short"
         ));
         return listOfPhrazes;
-    }
-
-    public static String getHomeUrl() {
-        return PROPERTIES.getProperty("home_page_url");
     }
 
 }
