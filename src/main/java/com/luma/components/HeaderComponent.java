@@ -62,4 +62,8 @@ public class HeaderComponent extends AbstractComponent {
         return amountOfProductElement.getText();
     }
 
+    public void scrollToAmountOfProductElement(){
+        Commands.scrollToElement(driver, amountOfProductElement);
+    }
+
 }

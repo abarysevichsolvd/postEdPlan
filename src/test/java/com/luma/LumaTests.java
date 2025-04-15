@@ -2,25 +2,31 @@ package com.luma;
 
 import com.luma.beans.Product;
 import com.luma.components.HeaderComponent;
+import com.luma.components.ProductCartComponent;
 import com.luma.components.ProductPLPComponent;
 import com.luma.drivers.WebDriverFactory;
+import com.luma.pages.CartPage;
 import com.luma.pages.HomePage;
 import com.luma.pages.PLP;
 import com.luma.utils.ServiceUtil;
 import com.luma.utils.WaitUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.testng.Assert.assertTrue;
 
-public class AmazonTests {
+public class LumaTests {
 
     public WebDriver driver;
-    private final Logger logger = Logger.getLogger(AmazonTests.class);
+    private final Logger logger = Logger.getLogger(LumaTests.class);
 
     public void setDriver(String browser, String browserPath) {
         WebDriverFactory factory = new WebDriverFactory();
@@ -65,13 +71,17 @@ public class AmazonTests {
         List<ProductPLPComponent> productPLPComponents = plp.getProductPLPList();
         List<Product> productsPLP = addRandomProductsToCart(productPLPComponents, amountOfProducts);
 
-        productsPLP.forEach(prod->{
-            System.out.println(prod);
-        });
-
         //4
-        WaitUtils.waitUntilAmountOfProductExist(driver, header, String.valueOf(productsPLP.size()),5);
+        header.scrollToAmountOfProductElement();
+        WaitUtils.waitUntilAmountOfProductExist(driver, header, String.valueOf(productsPLP.size()), 8);
         header.openMiniCart().openCart();
+        CartPage cartPage = new CartPage(driver);
+        List<Product> productsCart = getProductsFromCart(cartPage);
+
+
+        HashSet<Product> productPLPset = new HashSet<>(productsPLP);
+        HashSet<Product> productCartSet = new HashSet<>(productsCart);
+        Assert.assertEquals(productPLPset, productCartSet, "Plp product list isn't as cart product list");
 
         driver.quit();
     }
@@ -82,27 +92,36 @@ public class AmazonTests {
         homePage.agreeCookie();
     }
 
-    private Product addRandomProductToCart(List<ProductPLPComponent> products){
+    private Product addRandomProductToCart(List<ProductPLPComponent> products) {
         ProductPLPComponent randomProduct = ServiceUtil.getRandomElement(products);
-
-        List<String> colors = randomProduct.getColors();
-        String randomColor = ServiceUtil.getRandomElement(colors);
-        randomProduct.clickColorByText(randomColor);
+        randomProduct.scrollToProduct();
 
         List<String> sizes = randomProduct.getSizes();
         String randomSize = ServiceUtil.getRandomElement(sizes);
-        randomProduct.clickSizeByText(randomSize);
+        randomProduct.clickSizeByTextIfNotSelected(randomSize);
+
+        List<String> colors = randomProduct.getColors();
+        String randomColor = ServiceUtil.getRandomElement(colors);
+        randomProduct.clickColorByTextIfNotSelected(randomColor);
 
         randomProduct.clickAddToCartButton();
         Product product = ProductParser.parseProduct(randomProduct.getTitleText(), randomProduct.getPriceText(), randomSize, randomColor);
         return product;
     }
 
-    private List<Product> addRandomProductsToCart(List<ProductPLPComponent> products, int amount){
+    private List<Product> addRandomProductsToCart(List<ProductPLPComponent> products, int amount) {
         List<Product> productList = new ArrayList<>();
         for (int i = 0; i < amount; i++) {
             productList.add(addRandomProductToCart(products));
         }
         return productList;
+    }
+
+    private List<Product> getProductsFromCart(CartPage cartPage) {
+        List<ProductCartComponent> products = cartPage.getProductCartComponents();
+
+        return products.stream()
+                .map(productCartComponent -> ProductParser.parseProduct(productCartComponent.getTitleText(), productCartComponent.getPriceText(), productCartComponent.getSizeText(), productCartComponent.getColorText()))
+                .collect(Collectors.toList());
     }
 }

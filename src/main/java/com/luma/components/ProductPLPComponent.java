@@ -3,7 +3,6 @@ package com.luma.components;
 import com.luma.utils.Commands;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
@@ -32,6 +31,10 @@ public class ProductPLPComponent extends AbstractComponent {
         super(context, driver);
     }
 
+    public void scrollToProduct(){
+        Commands.scrollToElement(driver, titleElement);
+    }
+
     public String getTitleText() {
         return titleElement.getText();
     }
@@ -51,12 +54,33 @@ public class ProductPLPComponent extends AbstractComponent {
                 && !sizeElements.isEmpty();
     }
 
-    public String clickSizeByText(String sizeText) {
-        return  Commands.clickElementByText(sizeElements, sizeText);
+    public boolean isSizeSelected(WebElement sizeElement) {
+        return sizeElement.getAttribute("class").contains("selected");
     }
-    public String clickColorByText(String colorText) {
-        return  Commands.clickElementByAttributeOptionLabel(colorElements, colorText);
 
+    public boolean isColorSelected(WebElement colorElement) {
+        return colorElement.getAttribute("class").contains("selected");
+    }
+
+    public String clickSizeByTextIfNotSelected(String sizeText) {
+        WebElement size = findSize(sizeElements, sizeText);
+        if(!isSizeSelected(size)) return  Commands.clickElementByText(sizeElements, sizeText);
+        return sizeText;
+    }
+
+    public String clickColorByTextIfNotSelected(String colorText) {
+        WebElement color = findColor(colorElements, colorText);
+        if(!isColorSelected(color)) return  Commands.clickElementByAttributeOptionLabel(colorElements, colorText);
+        return colorText;
+
+    }
+
+    public WebElement findSize(List<WebElement> sizeElements, String text){
+        return sizeElements.stream().filter(size->size.getText().equals(text)).findFirst().get();
+    }
+
+    public WebElement findColor(List<WebElement> sizeElements, String text){
+        return colorElements.stream().filter(color->color.getAttribute("option-label").equals(text)).findFirst().get();
     }
 
     public List<String> getSizes() {
@@ -76,7 +100,7 @@ public class ProductPLPComponent extends AbstractComponent {
 
     public void clickAddToCartButton(){
         hoverTitle();
-        Commands.click(driver, addToCartButtonElement);
+        Commands.click(driver, addToCartButtonElement, 7);
     }
 
 }
