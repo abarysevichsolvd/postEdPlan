@@ -1,30 +1,34 @@
 package com.luma.pages;
 
 import com.luma.components.ProductCartComponent;
-import com.luma.utils.WaitUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class CartPage extends AbstractPage {
+public class CartPage extends AbstractLumaPage {
 
-    private final String PRODUCT_CART_XPATH = "//tbody[contains(@class, \"item\")]";
-    @FindBy(xpath = PRODUCT_CART_XPATH)
-    private List<WebElement> productCartElements;
+    @FindBy(xpath = "//tbody[contains(@class, \"item\")]")
     private List<ProductCartComponent> productCartComponents;
+
+    @FindBy(xpath = "//div[contains(@class, \"empty\")]/p[1]")
+    private WebElement emptyCardTitle;
 
     public CartPage(WebDriver driver) {
         super(driver);
     }
 
     public List<ProductCartComponent> getProductCartComponents() {
-        WaitUtils.waitUntilElementExist(driver, PRODUCT_CART_XPATH, 3);
-        return productCartElements.stream()
-                .map(element -> new ProductCartComponent(element, driver))
-                .collect(Collectors.toList());
+        return productCartComponents;
+    }
+
+    public boolean isEmptyCardPresent() {
+        return emptyCardTitle.isDisplayed();
+    }
+
+    public String getEmptyCardTitle() {
+        return emptyCardTitle.getText();
     }
 
 }

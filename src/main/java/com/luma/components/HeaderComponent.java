@@ -1,18 +1,22 @@
 package com.luma.components;
 
+import com.luma.annotations.WaitForComponents;
 import com.luma.constant.Constant;
 import com.luma.utils.Commands;
+import com.luma.utils.WaitUtils;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HeaderComponent extends AbstractComponent {
+public class HeaderComponent extends AbstractUIObject {
 
+    @WaitForComponents
     @FindBy(xpath = ".//div[contains(@id,\"minicart\")]/..")
-    private WebElement miniCartElement;
     private MiniCart miniCart;
 
     @FindBy(xpath = ".//div[@data-block=\"minicart\"]/a")
@@ -21,15 +25,14 @@ public class HeaderComponent extends AbstractComponent {
     @FindBy(xpath = ".//span[contains(@class, \"counter-number\")]")
     private WebElement amountOfProductElement;
 
-    @FindBy(xpath = ".//input[@id = \"search\"]")
+    @FindBy(xpath = ".//input[contains(@id, \"search\")]")
     private WebElement searchInput;
 
-    @FindBy(xpath = ".//button[@title=\"Search\"]")
+    @FindBy(xpath = ".//button[contains(@title,\"Search\")]")
     private WebElement searchButton;
 
-    public HeaderComponent(WebElement context, WebDriver driver) {
+    public HeaderComponent(SearchContext context, WebDriver driver) {
         super(context, driver);
-        this.miniCart = new MiniCart(miniCartElement, driver);
     }
 
     public void enterSearchText(String text) {
@@ -47,7 +50,7 @@ public class HeaderComponent extends AbstractComponent {
     }
 
     public void searchForRandomPhraze() {
-        List<String> phrazes = Constant.getSearchingPhrazes();
+        List<String> phrazes = new ArrayList<>(Constant.getSearchingPhrazes());
         Collections.shuffle(phrazes);
         logger.info("... Searching phraze is " + phrazes.get(0));
         searchFor(phrazes.get(0));
@@ -55,6 +58,7 @@ public class HeaderComponent extends AbstractComponent {
 
     public MiniCart openMiniCart(){
         Commands.click(driver, miniCartButton);
+        WaitUtils.waitUntilElementExist(driver, getRootElement(), 3);
         return miniCart;
     }
 

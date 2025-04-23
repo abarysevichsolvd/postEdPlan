@@ -2,16 +2,17 @@ package com.luma.components;
 
 import com.luma.utils.Commands;
 import com.luma.utils.WaitUtils;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class CookieModalComponent extends AbstractComponent {
+public class CookieModalComponent extends AbstractUIObject {
 
     @FindBy(xpath = ".//button[@id=\"accept-btn\"]")
     private WebElement agreeBtn;
 
-    public CookieModalComponent(WebElement context, WebDriver driver) {
+    public CookieModalComponent(SearchContext context, WebDriver driver) {
         super(context, driver);
     }
 

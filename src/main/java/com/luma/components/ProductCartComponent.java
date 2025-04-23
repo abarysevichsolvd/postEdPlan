@@ -1,10 +1,13 @@
 package com.luma.components;
 
+import com.luma.annotations.WaitForComponents;
+import com.luma.utils.Commands;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ProductCartComponent extends AbstractComponent{
+public class ProductCartComponent extends AbstractUIObject {
 
     @FindBy(xpath = ".//strong/a")
     protected WebElement titleElement;
@@ -18,7 +21,10 @@ public class ProductCartComponent extends AbstractComponent{
     @FindBy(xpath = ".//dt[contains(text(),\"Color\")]/following-sibling::dd[1]")
     private WebElement colorElement;
 
-    public ProductCartComponent(WebElement context, WebDriver driver) {
+    @FindBy(xpath = ".//a[contains(@title, \"Remove\")]")
+    private WebElement removeButton;
+
+    public ProductCartComponent(SearchContext context, WebDriver driver) {
         super(context, driver);
     }
 
@@ -36,6 +42,11 @@ public class ProductCartComponent extends AbstractComponent{
 
     public String getColorText() {
         return colorElement.getText();
+    }
+
+    public void deleteProduct(){
+        Commands.clickElementByJS(driver,removeButton);
+//        removeButton.click();
     }
 
 }

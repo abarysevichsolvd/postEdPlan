@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ProductPLPComponent extends AbstractUIObject {
+public class ProductPDPComponent extends AbstractUIObject {
 
-    @FindBy(xpath = ".//strong/a")
+    @FindBy(xpath = ".//h1")
     private WebElement titleElement;
 
     @FindBy(xpath = ".//span[contains(@id,\"product-price\")]")
@@ -27,8 +27,7 @@ public class ProductPLPComponent extends AbstractUIObject {
     @FindBy(xpath = ".//span[contains(text(),\"Add to Cart\")]/..")
     private WebElement addToCartButtonElement;
 
-
-    public ProductPLPComponent(SearchContext context, WebDriver driver) {
+    public ProductPDPComponent(SearchContext context, WebDriver driver) {
         super(context, driver);
     }
 
@@ -38,15 +37,6 @@ public class ProductPLPComponent extends AbstractUIObject {
 
     public String getTitleText() {
         return titleElement.getText();
-    }
-
-    public void hoverTitle() {
-        Commands.hoverOverElement(driver, titleElement);
-    }
-
-    public void clickTitle() {
-        scrollToProduct();
-        Commands.click(driver, titleElement);
     }
 
     public String getPriceText() {
@@ -105,9 +95,7 @@ public class ProductPLPComponent extends AbstractUIObject {
     }
 
     public void clickAddToCartButton() {
-        hoverTitle();
         Commands.click(driver, addToCartButtonElement, 7);
     }
 
 }
-

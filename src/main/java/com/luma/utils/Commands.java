@@ -71,4 +71,8 @@ public class Commands {
         action.moveToElement(element).perform();
     }
 
+    public static void clickElementByJS(WebDriver driver, WebElement element) {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].click();", element);
+    }
 }

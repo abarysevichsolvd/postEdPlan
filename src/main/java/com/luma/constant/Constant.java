@@ -17,8 +17,7 @@ public class Constant {
     }
 
     public static List<String> getSearchingPhrazes() {
-        List<String> listOfPhrazes = new ArrayList<>();
-        listOfPhrazes.addAll(List.of(
+        return List.of(
                 "Hoodie",
                 "Sweatshirt",
                 "Jacket",
@@ -27,8 +26,7 @@ public class Constant {
                 "Tank",
                 "Pant",
                 "Short"
-        ));
-        return listOfPhrazes;
+        );
     }
 
 }
