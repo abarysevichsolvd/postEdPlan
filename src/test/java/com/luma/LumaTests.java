@@ -2,19 +2,21 @@ package com.luma;
 
 import com.luma.beans.Product;
 import com.luma.components.*;
-import com.luma.drivers.WebDriverFactory;
 import com.luma.pages.CartPage;
 import com.luma.pages.HomePage;
 import com.luma.pages.PDP;
 import com.luma.pages.PLP;
+import com.luma.utils.CommonUtils;
 import com.luma.utils.ServiceUtil;
 import jdk.jfr.Description;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,15 +25,14 @@ import static com.luma.utils.WaitUtils.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
 
-public class LumaTests {
+public class LumaTests extends AbstractTest {
 
     public WebDriver driver;
     private final Logger logger = Logger.getLogger(LumaTests.class);
 
-    public void setDriver(String browser, String browserPath) {
-        WebDriverFactory factory = new WebDriverFactory();
-        driver = factory.getDriver(browserPath);
-        if (browser.equals("safari")) driver.manage().window().maximize();
+    @BeforeMethod
+    public void setDriver() {
+        driver = getDriver();
     }
 
     @AfterMethod
@@ -39,9 +40,8 @@ public class LumaTests {
         driver.quit();
     }
 
-    @Test(dataProvider = "browsers", dataProviderClass = BrowserDataProvider.class)
-    public void validateProductsOnPLPpage(String browser, String browserPath) {
-        setDriver(browser, browserPath);
+    @Test
+    public void validateProductsOnPLPpage() {
         HomePage homePage = HomePage.openHomePage(driver);
         openHomePageAndCloseCookie(homePage);
 
@@ -56,10 +56,9 @@ public class LumaTests {
         });
     }
 
-    @Test(dataProvider = "browsers", dataProviderClass = BrowserDataProvider.class)
+    @Test
     @Description("Add product from PLP page test")
-    public void validateAddProductFromPLPpage(String browser, String browserPath) {
-        setDriver(browser, browserPath);
+    public void validateAddProductFromPLPpage() {
         int amountOfProducts = 3;
         HomePage homePage = HomePage.openHomePage(driver);
 
@@ -90,10 +89,9 @@ public class LumaTests {
         driver.quit();
     }
 
-    @Test(dataProvider = "browsers", dataProviderClass = BrowserDataProvider.class)
+    @Test
     @Description("Add product from PDP page test")
-    public void validateAddProductFromPDPpage(String browser, String browserPath) {
-        setDriver(browser, browserPath);
+    public void validateAddProductFromPDPpage() {
         HomePage homePage = HomePage.openHomePage(driver);
 
         //1
@@ -134,10 +132,9 @@ public class LumaTests {
         assertEquals(productPDPset, productCartSet, "Plp product list isn't as cart product list");
     }
 
-    @Test(dataProvider = "browsers", dataProviderClass = BrowserDataProvider.class)
+    @Test
     @Description("Minicart is empty")
-    public void validateMiniCartIsEmpty(String browser, String browserPath) {
-        setDriver(browser, browserPath);
+    public void validateMiniCartIsEmpty() {
         HomePage homePage = HomePage.openHomePage(driver);
 
         //1
@@ -150,11 +147,10 @@ public class LumaTests {
         assertEquals(minicart.getEmptyTitleText(), "You have no items in your shopping cart.", "Empty mini cart title isn't as expected");
     }
 
-    @Test(dataProvider = "browsers", dataProviderClass = BrowserDataProvider.class)
+    @Test
     @Description("Delete products in the cart")
-    public void validateDeleteProductsInTheCart(String browser, String browserPath) {
+    public void validateDeleteProductsInTheCart() {
         int amountOfProducts = 3;
-        setDriver(browser, browserPath);
         HomePage homePage = HomePage.openHomePage(driver);
 
         //1
@@ -165,7 +161,6 @@ public class LumaTests {
         header.searchForRandomPhraze();
 
         //3
-        waitUntilProductPLPListExist(driver, 9);
         PLP plp = new PLP(driver);
         List<ProductPLPComponent> productPLPComponents = plp.getProductPLPList();
         List<Product> productsPLP = addRandomProductsToCart(productPLPComponents, amountOfProducts);
@@ -192,6 +187,71 @@ public class LumaTests {
         assertEquals(cartPage.getEmptyCardTitle().trim(), "You have no items in your shopping cart.", "Cart isn't empty");
     }
 
+    @Test
+    @Description("Delete products in the cart")
+    public void validateCheckOrderTotalInCart() {
+        int amountOfProducts = 3;
+        HomePage homePage = HomePage.openHomePage(driver);
+
+        //1
+        openHomePageAndCloseCookie(homePage);
+
+        //2
+        HeaderComponent header = homePage.getHeader();
+        header.searchForRandomPhraze();
+
+        //3
+        PLP plp = new PLP(driver);
+        List<ProductPLPComponent> productPLPComponents = plp.getProductPLPList();
+        List<Product> productsPLP = addRandomProductsToCart(productPLPComponents, amountOfProducts);
+
+        //4
+        header = plp.getHeader();
+        header.scrollToAmountOfProductElement();
+        waitUntilAmountOfProductExist(driver, header, String.valueOf(productsPLP.size()), 8);
+        header.openMiniCart().openCart();
+
+        CartPage cartPage = new CartPage(driver);
+        SummaryComponent summaryComponent = cartPage.getSummaryComponent();
+        double actualTotal = CommonUtils.getParsedPrice(summaryComponent.getSubtotalText());
+        List<Product> productsCart = getProductsFromCart(cartPage);
+
+        double expectedTotal = productsCart.stream().map(a -> CommonUtils.getParsedPrice(a.getPrice())).mapToDouble(Double::doubleValue).sum();
+
+        assertEquals(actualTotal, expectedTotal, "Total isn't as expected");
+    }
+
+    @Test
+    @Description("Delete products in the cart")
+    public void validateFiltersOnPLP() {
+        int amountOfProducts = 3;
+        HomePage homePage = HomePage.openHomePage(driver);
+
+        //1
+        openHomePageAndCloseCookie(homePage);
+
+        //2
+        HeaderComponent header = homePage.getHeader();
+        header.searchForRandomPhraze();
+
+        //3
+        PLP plp = new PLP(driver);
+        plp.sortBy("price");
+        waitUntilPageLoaded(driver, 5);
+
+        List<ProductPLPComponent> productPLPComponents = new PLP(driver).getProductPLPList();
+
+        List<Double> prices = productPLPComponents.stream()
+                .map(ProductPLPComponent::getPriceText)
+                .map(CommonUtils::getParsedPrice)
+                .collect(Collectors.toList());
+
+        List<Double> sorted = new ArrayList<>(prices);
+        Collections.sort(sorted);
+        Collections.reverse(sorted);
+
+        assertEquals(sorted, prices, "Products are not sorted by price (low to high)");
+    }
 
     private void openHomePageAndCloseCookie(HomePage homePage) {
         homePage.validateHomePageIsOpened();

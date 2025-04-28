@@ -1,7 +1,6 @@
 package com.luma.components;
 
 import com.luma.utils.Commands;
-import com.luma.utils.WaitUtils;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

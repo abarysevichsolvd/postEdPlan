@@ -1,6 +1,5 @@
 package com.luma.components;
 
-import com.luma.annotations.WaitForComponents;
 import com.luma.constant.Constant;
 import com.luma.utils.Commands;
 import com.luma.utils.WaitUtils;
@@ -15,7 +14,6 @@ import java.util.List;
 
 public class HeaderComponent extends AbstractUIObject {
 
-    @WaitForComponents
     @FindBy(xpath = ".//div[contains(@id,\"minicart\")]/..")
     private MiniCart miniCart;
 
@@ -56,17 +54,17 @@ public class HeaderComponent extends AbstractUIObject {
         searchFor(phrazes.get(0));
     }
 
-    public MiniCart openMiniCart(){
+    public MiniCart openMiniCart() {
         Commands.click(driver, miniCartButton);
         WaitUtils.waitUntilElementExist(driver, getRootElement(), 3);
         return miniCart;
     }
 
-    public String getAmountOfProduct(){
+    public String getAmountOfProduct() {
         return amountOfProductElement.getText();
     }
 
-    public void scrollToAmountOfProductElement(){
+    public void scrollToAmountOfProductElement() {
         Commands.scrollToElement(driver, amountOfProductElement);
     }
 

@@ -1,6 +1,5 @@
 package com.luma.components;
 
-import com.luma.annotations.WaitForComponents;
 import com.luma.utils.Commands;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -44,9 +43,8 @@ public class ProductCartComponent extends AbstractUIObject {
         return colorElement.getText();
     }
 
-    public void deleteProduct(){
-        Commands.clickElementByJS(driver,removeButton);
-//        removeButton.click();
+    public void deleteProduct() {
+        Commands.clickElementByJS(driver, removeButton);
     }
 
 }

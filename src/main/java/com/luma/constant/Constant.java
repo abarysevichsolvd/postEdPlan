@@ -1,20 +1,12 @@
 package com.luma.constant;
 
-import com.luma.drivers.WebDriverFactory;
+import com.luma.utils.ConfigUtils;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class Constant {
 
-    public static final Properties PROPERTIES;
-    public static final String HOME_URL;
-
-    static {
-        PROPERTIES = new WebDriverFactory().loadPropertiesFromFile();
-        HOME_URL = PROPERTIES.getProperty("home_page_url");
-    }
+    public static final String HOME_URL = ConfigUtils.PROPERTIES.getProperty("home_page_url");
 
     public static List<String> getSearchingPhrazes() {
         return List.of(

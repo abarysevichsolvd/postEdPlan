@@ -9,11 +9,6 @@ public class HomePage extends AbstractLumaPage {
         super(driver);
     }
 
-//    public void openHomePage() {
-//        driver.get(Constant.HOME_URL);
-//
-//    }
-
     public static HomePage openHomePage(WebDriver driver) {
         driver.get(Constant.HOME_URL);
         return new HomePage(driver);

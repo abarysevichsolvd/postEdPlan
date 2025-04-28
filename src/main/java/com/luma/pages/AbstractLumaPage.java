@@ -1,6 +1,5 @@
 package com.luma.pages;
 
-import com.luma.annotations.WaitForComponents;
 import com.luma.components.CookieModalComponent;
 import com.luma.components.HeaderComponent;
 import com.luma.constant.Constant;
@@ -10,11 +9,9 @@ import org.testng.Assert;
 
 public abstract class AbstractLumaPage extends AbstractPage {
 
-    @WaitForComponents
     @FindBy(xpath = "//header/div[contains(@class, \"header\")]")
     private HeaderComponent header;
 
-    @WaitForComponents
     @FindBy(xpath = "//div[@aria-label=\"Privacy\"]")
     private CookieModalComponent cookieModal;
 

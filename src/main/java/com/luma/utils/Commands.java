@@ -1,6 +1,5 @@
 package com.luma.utils;
 
-import com.luma.constant.Constant;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -28,12 +27,12 @@ public class Commands {
     }
 
     public static void clickWithScroll(WebDriver driver, WebElement element) {
-        long explicit_timeout = Long.parseLong(Constant.PROPERTIES.getProperty("explicit_timeout"));
+        long explicit_timeout = Long.parseLong(ConfigUtils.PROPERTIES.getProperty("explicit_timeout"));
         clickWithScroll(driver, element, explicit_timeout);
     }
 
     public static void click(WebDriver driver, WebElement element) {
-        long explicit_timeout = Long.parseLong(Constant.PROPERTIES.getProperty("explicit_timeout"));
+        long explicit_timeout = Long.parseLong(ConfigUtils.PROPERTIES.getProperty("explicit_timeout"));
         click(driver, element, explicit_timeout);
     }
 

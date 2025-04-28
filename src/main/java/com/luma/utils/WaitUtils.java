@@ -6,6 +6,7 @@ import com.luma.constant.Constant;
 import com.luma.pages.CartPage;
 import com.luma.pages.PLP;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -45,15 +46,6 @@ public class WaitUtils {
         });
     }
 
-    public static void waitUntilProductPLPListExist(WebDriver driver, long seconds) {
-        WebDriverWait waiter = createWebDriverWait(driver, seconds);
-        waiter.withMessage("Product PLP List Components aren't exists");
-        waiter.until(a -> {
-            PLP plp = new PLP(driver);
-            return plp.getProductPLPList() != null && !plp.getProductPLPList().isEmpty();
-        });
-    }
-
     public static void waitUntilProductCartListExist(WebDriver driver, long seconds) {
         WebDriverWait waiter = createWebDriverWait(driver, seconds);
         waiter.withMessage("Product PLP List Components aren't exists");
@@ -80,13 +72,20 @@ public class WaitUtils {
     }
 
     public static void waitUntilComponentExist(WebDriver driver, AbstractUIObject component) {
-        waitUntilComponentExist(driver, component, Long.parseLong(Constant.PROPERTIES.getProperty("explicit_timeout")));
+        waitUntilComponentExist(driver, component, Long.parseLong(ConfigUtils.PROPERTIES.getProperty("explicit_timeout")));
     }
 
-//    public static void waitUntilExist(WebDriver driver, Function<? super WebDriver, T> condition  , long seconds) {
-//        WebDriverWait waiter = createWebDriverWait(driver, seconds);
-//        waiter.withMessage("Product PLP List Components aren't exists");
-//        waiter.until(condition);
-//    }
+    public static <T> void waitUntilExist(WebDriver driver, Function<? super WebDriver, T> condition  , long seconds) {
+        WebDriverWait waiter = createWebDriverWait(driver, seconds);
+        waiter.withMessage("Product PLP List Components aren't exists");
+        waiter.until(condition);
+    }
+
+    public static void waitUntilPageLoaded(WebDriver driver, long timeoutInSeconds) {
+        new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds))
+                .withMessage("Page did not finish loading in time")
+                .until(webDriver -> ((JavascriptExecutor) webDriver)
+                        .executeScript("return document.readyState").equals("complete"));
+    }
 
 }

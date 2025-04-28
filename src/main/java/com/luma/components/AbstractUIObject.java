@@ -36,7 +36,7 @@ public abstract class AbstractUIObject {
         return root.isDisplayed();
     }
 
-    public WebElement getRootElement(){
+    public WebElement getRootElement() {
         return root;
     }
 

@@ -1,6 +1,7 @@
 package com.luma.pages;
 
 import com.luma.components.ProductCartComponent;
+import com.luma.components.SummaryComponent;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,6 +12,9 @@ public class CartPage extends AbstractLumaPage {
 
     @FindBy(xpath = "//tbody[contains(@class, \"item\")]")
     private List<ProductCartComponent> productCartComponents;
+
+    @FindBy(xpath = "//div[contains(@class, \"cart-summary\")]")
+    private SummaryComponent summaryComponent;
 
     @FindBy(xpath = "//div[contains(@class, \"empty\")]/p[1]")
     private WebElement emptyCardTitle;
@@ -29,6 +33,10 @@ public class CartPage extends AbstractLumaPage {
 
     public String getEmptyCardTitle() {
         return emptyCardTitle.getText();
+    }
+
+    public SummaryComponent getSummaryComponent() {
+        return summaryComponent;
     }
 
 }
